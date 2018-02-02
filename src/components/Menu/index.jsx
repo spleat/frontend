@@ -3,14 +3,8 @@ import style from './style.scss';
 import AddButton from './../AddButton';
 
 export default class Menu extends Component {
-  menu = [
-    { title: 'Hawajska', price: '10 PLN', id: 1 },
-    { title: 'Hawajska Bacon', price: '16 PLN', id: 15 },
-    { title: 'Hawajska Bacon^2', price: '26 PLN', id: 4 }
-  ]
-
-  onClick = (id) => {
-    console.log(id);
+  onClick = (id, price) => {
+    console.log(id, price);
   }
 
   render(){
@@ -19,11 +13,11 @@ export default class Menu extends Component {
     return (
       <div>
         <ul className={style['menu-list']}>
-          {this.menu.map(({ title, price, id }) => (
+          {this.props.menu.map(({ desc, readeablePrice, price, id }) => (
             <li className={style['menu-item']}>
-              {!readOnly && <AddButton onClick={() => this.onClick(id)}/>}
+              {!readOnly && <AddButton onClick={() => this.onClick(id, price)}/>}
               <div className={style['menu-item-text']}>
-                {title}
+                {desc} - {readeablePrice} ETH
               </div>
             </li>))
           }

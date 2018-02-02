@@ -2,29 +2,63 @@ import {h, Component} from 'preact';
 import Select from 'preact-material-components/Select';
 import TextField from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
+import { route } from 'preact-router';
+
 import style from './style.scss';
 
+import { openOrder } from './../../contracts';
+
 export default class OrderForm extends Component {
+  state = {
+    address: '',
+    phone: ''
+  }
+
+  onClick = () => {
+    const { phone, address } = this.state;
+
+    openOrder(address, phone)
+      .then((response) => {
+        route(`/orders/${response}`);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
   render(){
     return (
         <div className={style.form}>
           <Select
             className={style['form-select']}
-            hintText="Select restaurant"
-            selectedIndex={this.state.chosenIndex}
-            onChange={(e)=>{
-              this.setState({
-                chosenIndex: e.selectedIndex
-              });
-
-              console.log(e.selectedOptions);
-            }}>
+            selectedIndex={0}
+            disabled
+          >
             <Select.Item>Ether Pizza</Select.Item>
-            <Select.Item>Ether Burger - coming soon</Select.Item>
           </Select>
-          <TextField className={style['form-input']} label="Address"/>
-          <TextField className={style['form-input']} type="tel" label="Phone number"/>
-          <Button className={style['form-button']} raised>
+
+          <TextField
+            label="Address"
+            value={this.state.address}
+            onInput={this.handleChange('address')}
+            className={style['form-input']}
+          />
+
+          <TextField
+            label="Phone number"
+            value={this.state.phone}
+            onInput={this.handleChange('phone')}
+            className={style['form-input']}
+            type="tel"
+          />
+
+          <Button onClick={this.onClick} className={style['form-button']} raised>
             Create order
           </Button>
         </div>
