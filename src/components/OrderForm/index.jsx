@@ -2,13 +2,6 @@ import {h, Component} from 'preact';
 import Select from 'preact-material-components/Select';
 import TextField from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
-
-import 'preact-material-components/TextField/style.css';
-import 'preact-material-components/List/style.css';
-import 'preact-material-components/Menu/style.css';
-import 'preact-material-components/Select/style.css';
-import 'preact-material-components/Button/style.css';
-import 'preact-material-components/Theme/style.css';
 import style from './style.scss';
 
 export default class OrderForm extends Component {
