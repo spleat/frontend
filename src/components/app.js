@@ -16,7 +16,7 @@ export default class App extends Component {
         <Header />
         <Router onChange={this.handleRoute}>
           <Home path="/" />
-          <Order path="/orders" />
+          <Order path="/orders/:id" />
         </Router>
       </div>
     );

@@ -3,12 +3,23 @@ import { h, Component } from 'preact';
 import Card from 'preact-material-components/Card';
 import Menu from './../../components/Menu';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
-import { fetchMenu } from './../../contracts';
+import { fetchMenu, addItem } from './../../contracts';
 import { HexToAscii } from './../../utils';
 
 export default class Home extends Component {
   state = {
-    menu: []
+    menu: [],
+    orderedDishes: []
+  }
+
+  orderDish = (dishId, price) => {
+    addItem(this.props.id, dishId, price)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   componentDidMount() {
@@ -39,13 +50,13 @@ export default class Home extends Component {
             <LayoutGrid.Cell cols="4">
               <Card>
                 <Card.Title>EtherPizza Menu</Card.Title>
-                <Menu menu={this.state.menu}/>
+                <Menu menu={this.state.menu} orderDish={this.orderDish} />
               </Card>
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="4">
               <Card>
                 <Card.Title>Ordered dishes</Card.Title>
-                <Menu menu={[]} readOnly />
+                <Menu menu={this.state.orderedDishes} readOnly />
               </Card>
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="2" />

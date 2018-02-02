@@ -10,8 +10,10 @@ if (typeof web3 !== 'undefined') {
 
 const fetchMenu = async () => await promisify(cb => EtherPizzaContractInstance.wholeMenu(cb));
 const openOrder = async (deliveryAddress, phone) => await promisify(cb => SpleatContractInstance.openOrder(etherPizzaAddress, deliveryAddress, phone, cb));
+const addItem = async (orderId, dishId, price) => await promisify(cb => SpleatContractInstance.addItem(orderId, dishId, { value: price }, cb));
 
 export {
   fetchMenu,
-  openOrder
+  openOrder,
+  addItem
 }
