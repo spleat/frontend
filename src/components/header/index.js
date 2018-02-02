@@ -6,6 +6,7 @@ import List from 'preact-material-components/List';
 import Dialog from 'preact-material-components/Dialog';
 import Switch from 'preact-material-components/Switch';
 import { Link } from 'preact-router/match';
+import style from './style.scss';
 
 export default class Header extends Component {
   openSettings = () => this.dialog.MDComponent.show();
@@ -35,7 +36,7 @@ export default class Header extends Component {
           <Toolbar.Row>
             <Toolbar.Section align-start>
               <Toolbar.Title>
-                <Link href="/">
+                <Link className={style.link} href="/">
                   Spleat
                 </Link>
               </Toolbar.Title>
