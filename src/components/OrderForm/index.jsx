@@ -9,7 +9,7 @@ export default class OrderForm extends Component {
     return (
         <div className={style.form}>
           <Select
-            className={style['form-input']}
+            className={style['form-select']}
             hintText="Select restaurant"
             selectedIndex={this.state.chosenIndex}
             onChange={(e)=>{

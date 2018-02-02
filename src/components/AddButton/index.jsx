@@ -6,7 +6,7 @@ import style from './style.scss';
 export default class AddButton extends Component {
   render(){
     return (
-      <div onClick={this.props.onClick}>
+      <div className={style['button']} onClick={this.props.onClick}>
         <Fab mini={true}>
           <Icon>add_circle_outline</Icon>
         </Fab>

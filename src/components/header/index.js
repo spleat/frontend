@@ -5,6 +5,7 @@ import Drawer from 'preact-material-components/Drawer';
 import List from 'preact-material-components/List';
 import Dialog from 'preact-material-components/Dialog';
 import Switch from 'preact-material-components/Switch';
+import { Link } from 'preact-router/match';
 
 export default class Header extends Component {
   openSettings = () => this.dialog.MDComponent.show();
@@ -33,7 +34,11 @@ export default class Header extends Component {
         <Toolbar className="toolbar">
           <Toolbar.Row>
             <Toolbar.Section align-start>
-              <Toolbar.Title>Spleat</Toolbar.Title>
+              <Toolbar.Title>
+                <Link href="/">
+                  Spleat
+                </Link>
+              </Toolbar.Title>
             </Toolbar.Section>
             <Toolbar.Section align-end onClick={this.openSettings}>
               <Toolbar.Icon>settings</Toolbar.Icon>

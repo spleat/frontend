@@ -7,8 +7,13 @@
     margin: 20px 0;
   }
 
+  &-select {
+    margin-top: 20px;
+  }
+
   &-input,
-  &-button {
+  &-button,
+  &-select {
     width: 90%;
   }
 }

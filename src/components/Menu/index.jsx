@@ -14,12 +14,14 @@ export default class Menu extends Component {
   }
 
   render(){
+    const { readOnly } = this.props;
+
     return (
       <div>
         <ul className={style['menu-list']}>
           {this.menu.map(({ title, price, id }) => (
             <li className={style['menu-item']}>
-              <AddButton onClick={() => this.onClick(id)}/>
+              {!readOnly && <AddButton onClick={() => this.onClick(id)}/>}
               <div className={style['menu-item-text']}>
                 {title}
               </div>

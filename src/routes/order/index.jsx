@@ -3,8 +3,6 @@ import { h, Component } from 'preact';
 import Card from 'preact-material-components/Card';
 import Menu from './../../components/Menu';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
-import 'preact-material-components/LayoutGrid/style.css';
-import 'preact-material-components/Card/style.css';
 
 export default class Home extends Component {
   render() {
@@ -21,8 +19,8 @@ export default class Home extends Component {
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="4">
               <Card>
-                <Card.Title>Menu</Card.Title>
-                <Menu />
+                <Card.Title>Order dishes</Card.Title>
+                <Menu readOnly />
               </Card>
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="2" />
