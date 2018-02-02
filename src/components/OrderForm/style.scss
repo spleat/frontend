@@ -3,7 +3,12 @@
   flex-direction: column;
   align-items: center;
 
-  &-input {
+  &-button {
+    margin: 20px 0;
+  }
+
+  &-input,
+  &-button {
     width: 90%;
   }
 }
