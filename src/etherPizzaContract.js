@@ -278,7 +278,7 @@ const etherPizzaAbi = [
   }
 ]
 
-const etherPizzaAddress = '0x89e5275771b16388e872e0ed7f1455a7683a0bc9';
+const etherPizzaAddress = '0xd88e1aa41d7978470bcb511cf8b6c035ad771fbc';
 
 export {
   etherPizzaAddress,

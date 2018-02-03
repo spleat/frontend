@@ -7,10 +7,10 @@ const Web3 = require('web3');
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
 } else {
-  web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/0ZevQ4HkUCzCVBOsYZcQ"));
+  web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/0ZevQ4HkUCzCVBOsYZcQ"));
 }
 
-const SpleatContractInstance = new web3.eth.Contract(spleatAbi, '0x21493442dceb6a74068be83a35dda0b7afc7abff');
+const SpleatContractInstance = new web3.eth.Contract(spleatAbi, '0x2cb6f297d78da1a0c7d274783338b13e91961de7');
 const EtherPizzaContractInstance = new web3.eth.Contract(etherPizzaAbi, etherPizzaAddress);
 
 const getCurrentAccount = () => web3.eth.getAccounts().then((resp) => resp[0]);
