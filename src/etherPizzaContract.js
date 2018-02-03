@@ -1,4 +1,4 @@
-const abiArray = [
+const etherPizzaAbi = [
   {
     "constant": false,
     "inputs": [
@@ -278,11 +278,9 @@ const abiArray = [
   }
 ]
 
-const Contract = web3.eth.contract(abiArray);
 const etherPizzaAddress = '0x89e5275771b16388e872e0ed7f1455a7683a0bc9';
-const EtherPizzaContractInstance = Contract.at(etherPizzaAddress);
 
 export {
   etherPizzaAddress,
-  EtherPizzaContractInstance
+  etherPizzaAbi
 }

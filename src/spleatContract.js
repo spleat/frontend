@@ -98,6 +98,10 @@ const spleatAbi = [
       {
         "name": "",
         "type": "bool"
+      },
+      {
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,

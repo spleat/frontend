@@ -3,8 +3,9 @@ import style from './style.scss';
 import AddButton from './../AddButton';
 
 export default class Menu extends Component {
+
   render(){
-    const { readOnly } = this.props;
+    const { readOnly, refresh } = this.props;
 
     return (
       <div>
