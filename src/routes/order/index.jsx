@@ -3,6 +3,8 @@ import { h, Component } from 'preact';
 import Card from 'preact-material-components/Card';
 import Menu from './../../components/Menu';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
+import Loader from './../../components/Loader';
+
 import { fetchMenu, addItem } from './../../contracts';
 import { HexToAscii } from './../../utils';
 
@@ -14,12 +16,13 @@ export default class Home extends Component {
 
   orderDish = (dishId, price) => {
     addItem(this.props.id, dishId, price)
-      .then((response) => {
-        console.log(response);
+      .on('transactionHash', () => {
+        this.setState({loading: true});
       })
-      .catch(err => {
-        console.log(err);
+      .on('receipt', (receipt) => {
+        this.setState({loading: false});
       })
+      .on('error', console.error);
   }
 
   componentDidMount() {
@@ -44,6 +47,7 @@ export default class Home extends Component {
   render() {
     return (
       <div>
+        {this.state.loading && <Loader loading={this.state.loading} />}
         <LayoutGrid>
           <LayoutGrid.Inner>
             <LayoutGrid.Cell cols="2" />

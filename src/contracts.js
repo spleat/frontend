@@ -14,7 +14,7 @@ const SpleatContractInstance = new web3.eth.Contract(spleatAbi, '0x5a00169fc88d3
 
 const fetchMenu = async () => await promisify(cb => EtherPizzaContractInstance.wholeMenu(cb));
 const openOrder = (deliveryAddress, phone) => SpleatContractInstance.methods.openOrder(etherPizzaAddress, deliveryAddress, phone).send({ from: "0x5E6f295c310cFad2FCc9f16345a162205bFD05bd" });
-const addItem =  (orderId, dishId, price) => { console.log(orderId, dishId, price); SpleatContractInstance.methods.addItem(orderId, dishId).send({ from: "0x5E6f295c310cFad2FCc9f16345a162205bFD05bd", value: price }) };
+const addItem =  (orderId, dishId, price) => SpleatContractInstance.methods.addItem(orderId, dishId).send({ from: "0x5E6f295c310cFad2FCc9f16345a162205bFD05bd", value: price });
 
 export {
   fetchMenu,
