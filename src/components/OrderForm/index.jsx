@@ -29,7 +29,7 @@ export default class OrderForm extends Component {
             const orderId = receipt.events.OrderOpened.returnValues.orderId;
 
             this.setState({loading: false});
-            route(`/orders/${orderId}`);
+            route(`/order/${orderId}`);
           })
           .on('error', console.error);
       })
