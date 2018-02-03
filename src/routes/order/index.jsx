@@ -4,15 +4,40 @@ import Card from 'preact-material-components/Card';
 import Menu from './../../components/Menu';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import Loader from './../../components/Loader';
+import Button from 'preact-material-components/Button';
 
-import { fetchMenu, addItem, orderById, getCurrentAccount } from './../../contracts';
+import { orderStatus, makeOrder, fetchMenu, addItem, orderById, getCurrentAccount } from './../../contracts';
 import { HexToAscii } from './../../utils';
+import style from './style.scss';
 
 export default class Home extends Component {
   state = {
     menu: [],
     orderedDishes: [],
-    myOrder: []
+    myOrder: [],
+    owner: false,
+    closed: false
+  }
+
+  statusMapping = [
+    'pending',
+    'preparing',
+    'delivering',
+    'delivered',
+    'rejected'
+  ]
+
+  makeOrder = () => {
+    getCurrentAccount()
+      .then((currentAccount) => {
+        makeOrder(this.props.id, currentAccount)
+          .on('transactionHash', () => {
+            this.setState({loading: true, ordered: true});
+          })
+          .on('receipt', (receipt) => {
+            this.setState({loading: false});
+          })
+      })
   }
 
   orderDish = (dishId, price) => {
@@ -45,6 +70,7 @@ export default class Home extends Component {
               return { desc, id, readeablePrice, current }
             })
 
+            this.setState({ owner: currentAccount == response[3], closed: response[2] })
             return decodedDishes;
           })
           .then((decodedDishes) => {
@@ -54,6 +80,13 @@ export default class Home extends Component {
             })
           })
           .catch(err => console.log(err));
+      })
+  }
+
+  checkOrderStatus = () => {
+    orderStatus(this.props.id)
+      .then((restaurantOrderStatus) => {
+        this.setState({ restaurantOrderStatus: this.statusMapping[restaurantOrderStatus] });
       })
   }
 
@@ -73,7 +106,9 @@ export default class Home extends Component {
         this.setState({menu});
       }).then(() => {
         this.refreshOrder();
+        this.checkOrderStatus();
         this.interval = setInterval(() => this.refreshOrder(), 2000);
+        this.interval2 = setInterval(() => this.checkOrderStatus(), 2000);
       })
       .catch(err => {
         console.log(err);
@@ -82,6 +117,7 @@ export default class Home extends Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+    clearInterval(this.interval2);
   }
 
   render() {
@@ -94,14 +130,19 @@ export default class Home extends Component {
             <LayoutGrid.Cell cols="4">
               <Card>
                 <Card.Title>EtherPizza Menu</Card.Title>
-                <Menu menu={this.state.menu} orderDish={this.orderDish} />
+                <Menu menu={this.state.menu} orderDish={this.orderDish} readOnly={this.state.closed} />
               </Card>
+              {this.state.owner && !this.state.closed && <Button className={style.button} onClick={this.makeOrder} raised>
+                Make order
+              </Button>}
+
+              {this.state.closed && <div className={style.button}>{this.state.restaurantOrderStatus}</div>}
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="4">
               <Card>
                 <Card.Title>My order</Card.Title>
                 <Menu orderId={this.props.id} menu={this.state.myOrder} readOnly />
-                <Card.Title>Ordered dishes</Card.Title>
+                <Card.Title>Other orders</Card.Title>
                 <Menu orderId={this.props.id} menu={this.state.orderedDishes} readOnly />
               </Card>
             </LayoutGrid.Cell>
