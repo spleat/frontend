@@ -7,7 +7,7 @@ import { route } from 'preact-router';
 import style from './style.scss';
 import Loader from './../Loader';
 
-import { openOrder } from './../../contracts';
+import { openOrder, getCurrentAccount } from './../../contracts';
 
 export default class OrderForm extends Component {
   state = {
@@ -19,17 +19,20 @@ export default class OrderForm extends Component {
   onClick = () => {
     const { phone, address } = this.state;
 
-    openOrder(address, phone)
-      .on('transactionHash', () => {
-        this.setState({loading: true});
-      })
-      .on('receipt', (receipt) => {
-        const orderId = receipt.events.OrderOpened.returnValues.orderId;
+    getCurrentAccount()
+      .then((currentAccount) => {
+        openOrder(address, phone, currentAccount)
+          .on('transactionHash', () => {
+            this.setState({loading: true});
+          })
+          .on('receipt', (receipt) => {
+            const orderId = receipt.events.OrderOpened.returnValues.orderId;
 
-        this.setState({loading: false});
-        route(`/orders/${orderId}`);
+            this.setState({loading: false});
+            route(`/orders/${orderId}`);
+          })
+          .on('error', console.error);
       })
-      .on('error', console.error);
   }
 
   handleChange = name => event => {

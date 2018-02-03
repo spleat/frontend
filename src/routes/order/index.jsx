@@ -5,40 +5,56 @@ import Menu from './../../components/Menu';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import Loader from './../../components/Loader';
 
-import { fetchMenu, addItem, orderById } from './../../contracts';
+import { fetchMenu, addItem, orderById, getCurrentAccount } from './../../contracts';
 import { HexToAscii } from './../../utils';
 
 export default class Home extends Component {
   state = {
     menu: [],
-    orderedDishes: []
+    orderedDishes: [],
+    myOrder: []
   }
 
   orderDish = (dishId, price) => {
-    addItem(this.props.id, dishId, price)
-      .on('transactionHash', () => {
-        this.setState({loading: true});
+    getCurrentAccount()
+      .then((currentAccount) => {
+        addItem(this.props.id, dishId, price, currentAccount)
+          .on('transactionHash', () => {
+            this.setState({loading: true});
+          })
+          .on('receipt', (receipt) => {
+            this.setState({loading: false});
+          })
+          .on('error', console.error);
       })
-      .on('receipt', (receipt) => {
-        this.setState({loading: false});
-      })
-      .on('error', console.error);
   }
 
   refreshOrder = () => {
-    orderById(this.props.id)
-      .then((response) => (
-        response[0].map((id, index) => {
-          const dish = this.state.menu.filter(m => parseFloat(m.id) == id);
-          const { desc, readeablePrice } = dish[0];
+    getCurrentAccount()
+      .then((currentAccount) => {
+        orderById(this.props.id)
+          .then((response) => {
+            const decodedDishes = response[0].map((id, index) => {
+              const dish = this.state.menu.filter(m => m.id == id);
+              const { desc, readeablePrice } = dish[0];
+              let current = false;
+              if (response[1][index] == currentAccount) {
+                current = true;
+              }
 
-          return { desc, id, readeablePrice }
-        })
-      ))
-      .then((orderedDishes) => {
-        this.setState({orderedDishes});
+              return { desc, id, readeablePrice, current }
+            })
+
+            return decodedDishes;
+          })
+          .then((decodedDishes) => {
+            this.setState({
+              orderedDishes: decodedDishes.filter(d => d.current == false),
+              myOrder: decodedDishes.filter(d => d.current == true),
+            })
+          })
+          .catch(err => console.log(err));
       })
-      .catch(err => console.log(err));
   }
 
 
@@ -83,8 +99,10 @@ export default class Home extends Component {
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="4">
               <Card>
+                <Card.Title>My order</Card.Title>
+                <Menu orderId={this.props.id} menu={this.state.myOrder} readOnly />
                 <Card.Title>Ordered dishes</Card.Title>
-                <Menu orderId={this.props.id} menu={this.state.orderedDishes} readOnly refresh />
+                <Menu orderId={this.props.id} menu={this.state.orderedDishes} readOnly />
               </Card>
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="2" />
