@@ -5,25 +5,31 @@ import Button from 'preact-material-components/Button';
 import { route } from 'preact-router';
 
 import style from './style.scss';
+import Loader from './../Loader';
 
 import { openOrder } from './../../contracts';
 
 export default class OrderForm extends Component {
   state = {
     address: '',
-    phone: ''
+    phone: '',
+    loading: false
   }
 
   onClick = () => {
     const { phone, address } = this.state;
 
     openOrder(address, phone)
-      .then((response) => {
-        route(`/orders/${response}`);
+      .on('transactionHash', () => {
+        this.setState({loading: true});
       })
-      .catch(err => {
-        console.log(err);
+      .on('receipt', (receipt) => {
+        const orderId = receipt.events.OrderOpened.returnValues.orderId;
+
+        this.setState({loading: false});
+        route(`/orders/${orderId}`);
       })
+      .on('error', console.error);
   }
 
   handleChange = name => event => {
@@ -35,6 +41,7 @@ export default class OrderForm extends Component {
   render(){
     return (
         <div className={style.form}>
+          {this.state.loading && <Loader loading={this.state.loading} />}
           <Select
             className={style['form-select']}
             selectedIndex={0}

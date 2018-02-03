@@ -1,4 +1,4 @@
-const abiArray = [
+const spleatAbi = [
   {
     "constant": false,
     "inputs": [
@@ -53,6 +53,51 @@ const abiArray = [
       {
         "name": "",
         "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "orderId",
+        "type": "uint256"
+      },
+      {
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeItem",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "orderId",
+        "type": "uint256"
+      }
+    ],
+    "name": "orderById",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
+        "name": "",
+        "type": "address[]"
+      },
+      {
+        "name": "",
+        "type": "bool"
       }
     ],
     "payable": false,
@@ -172,9 +217,6 @@ const abiArray = [
   }
 ]
 
-const Contract = web3.eth.contract(abiArray);
-const SpleatContractInstance = Contract.at('0x5c76f365acf895b84108142da0da2c7b7ee37619');
-
 export {
-  SpleatContractInstance
+  spleatAbi
 }
