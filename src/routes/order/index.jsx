@@ -107,8 +107,8 @@ export default class Home extends Component {
       }).then(() => {
         this.refreshOrder();
         this.checkOrderStatus();
-        this.interval = setInterval(() => this.refreshOrder(), 2000);
-        this.interval2 = setInterval(() => this.checkOrderStatus(), 2000);
+        this.interval = setInterval(() => this.refreshOrder(), 500);
+        this.interval2 = setInterval(() => this.checkOrderStatus(), 500);
       })
       .catch(err => {
         console.log(err);
