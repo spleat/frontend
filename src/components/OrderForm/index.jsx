@@ -48,9 +48,9 @@ export default class OrderForm extends Component {
           <Select
             className={style['form-select']}
             selectedIndex={0}
-            disabled
           >
             <Select.Item>Ether Pizza</Select.Item>
+            <Select.Item>Bitcoin Burger (coming soon)</Select.Item>
           </Select>
 
           <TextField

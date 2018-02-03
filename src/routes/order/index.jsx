@@ -135,8 +135,6 @@ export default class Home extends Component {
               {this.state.owner && !this.state.closed && <Button className={style.button} onClick={this.makeOrder} raised>
                 Make order
               </Button>}
-
-              {this.state.closed && <div className={style.button}>{this.state.restaurantOrderStatus}</div>}
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="4">
               <Card>
@@ -148,6 +146,13 @@ export default class Home extends Component {
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="2" />
           </LayoutGrid.Inner>
+          <LayoutGrid.Inner>
+            <LayoutGrid.Cell cols="2" />
+            <LayoutGrid.Cell cols="10">
+              {this.state.closed && <div className={style.status}>Order status: {this.state.restaurantOrderStatus}</div>}
+            </LayoutGrid.Cell>
+          </LayoutGrid.Inner>
+
         </LayoutGrid>
       </div>
     );
