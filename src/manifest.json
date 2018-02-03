@@ -1,6 +1,6 @@
 {
-  "name": "spleat-frontend",
-  "short_name": "spleat-frontend",
+  "name": "spleat",
+  "short_name": "spleat",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
