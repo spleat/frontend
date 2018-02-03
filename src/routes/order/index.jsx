@@ -21,7 +21,6 @@ export default class Home extends Component {
       })
       .on('receipt', (receipt) => {
         this.setState({loading: false});
-        this.refreshOrder();
       })
       .on('error', console.error);
   }
@@ -56,12 +55,17 @@ export default class Home extends Component {
       ))
       .then((menu) => {
         this.setState({menu});
-
+      }).then(() => {
         this.refreshOrder();
+        this.interval = setInterval(() => this.refreshOrder(), 2000);
       })
       .catch(err => {
         console.log(err);
       })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
