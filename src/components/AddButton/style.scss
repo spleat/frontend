@@ -1,3 +1,13 @@
 .button {
   margin-right: 20px;
 }
+
+.hidden {
+  opacity: .5;
+  cursor: not-allowed;
+
+  i,
+  button {
+    cursor: not-allowed;
+  }
+}

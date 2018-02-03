@@ -130,7 +130,7 @@ export default class Home extends Component {
             <LayoutGrid.Cell cols="4">
               <Card>
                 <Card.Title>EtherPizza Menu</Card.Title>
-                <Menu menu={this.state.menu} orderDish={this.orderDish} readOnly={this.state.closed} />
+                <Menu menu={this.state.menu} orderDish={this.orderDish} exit={this.state.closed} />
               </Card>
               {this.state.owner && !this.state.closed && <Button className={style.button} onClick={this.makeOrder} raised>
                 Make order
@@ -139,9 +139,9 @@ export default class Home extends Component {
             <LayoutGrid.Cell cols="4">
               <Card>
                 <Card.Title>My order</Card.Title>
-                <Menu orderId={this.props.id} menu={this.state.myOrder} readOnly />
+                <Menu orderId={this.props.id} menu={this.state.myOrder} readOnly exit={false} />
                 <Card.Title>Other orders</Card.Title>
-                <Menu orderId={this.props.id} menu={this.state.orderedDishes} readOnly />
+                <Menu orderId={this.props.id} menu={this.state.orderedDishes} readOnly exit={false} />
               </Card>
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols="2" />
